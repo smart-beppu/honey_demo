@@ -70,12 +70,27 @@ class _MyHomePageState extends State<MyHomePage> {
                     Stack(
                       children: [
                         HexagonListContainer(size: containerSize),
-                        Padding(
-                          padding: EdgeInsets.only(
-                              left: containerSize.width * 0.36,
-                              top: containerSize.height * 0.1),
-                          child: Jar(size: containerSize),
-                        )
+                        Positioned(
+                            top: containerSize.height * 0.25,
+                            left: containerSize.width * 0.24,
+                            child: Jar(
+                              size: containerSize,
+                              num: 1,
+                            )),
+                        Positioned(
+                            bottom: containerSize.height * 0.29,
+                            left: containerSize.width * 0.36,
+                            child: Jar(
+                              size: containerSize,
+                              num: 2,
+                            )),
+                        Positioned(
+                            top: containerSize.height * 0.13,
+                            left: containerSize.width * 0.6,
+                            child: Jar(
+                              size: containerSize,
+                              num: 3,
+                            )),
                       ],
                     ),
                     // HexagonPackage(size: containerSize),HEXマップ作れるライブラリ
