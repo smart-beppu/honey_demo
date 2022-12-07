@@ -13,88 +13,43 @@ class HexagonContainer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
+    return Wrap(
+      direction: Axis.vertical,
       children: [
-        Wrap(
-          direction: Axis.vertical,
-          children: [
-            for (int i = 0; i < num; i++)
-              Container(
-                width: size.width * 0.12, // 1 ≒ 8*0.12
-                height: size.height * 0.08,
-                child: GestureDetector(
-                  onTap: () {
-                    print("test");
-                  },
-                  child: CustomPaint(
-                    painter: num == 1
-                        ? CustomHexagon(
-                            color: const Color.fromARGB(255, 189, 126, 74),
-                            strokeWidth: 1,
-                            testSize: size)
-                        : CustomHexagon(
-                            color: i == 0
-                                ? const Color.fromARGB(255, 255, 255, 255)
-                                : const Color.fromARGB(255, 255, 234, 167),
-                            borderColor: i == 0
-                                ? const Color.fromARGB(255, 253, 203, 110)
-                                : const Color.fromARGB(255, 225, 112, 85),
-                            strokeWidth: i == 0 ? 5 : 1,
-                            testSize: size),
-                    child: Center(
-                      child: Text(
-                        text ?? num.toString(),
-                        style: TextStyle(
-                          color: num == 1 ? Colors.white : Colors.black,
-                        ),
-                      ),
+        for (int i = 0; i < num; i++)
+          Container(
+            width: size.width * 0.12, // 1 ≒ 8*0.12
+            height: size.height * 0.08,
+            child: GestureDetector(
+              onTap: () {
+                print("test");
+              },
+              child: CustomPaint(
+                painter: num == 1
+                    ? CustomHexagon(
+                        color: const Color.fromARGB(255, 189, 126, 74),
+                        strokeWidth: 1,
+                        testSize: size)
+                    : CustomHexagon(
+                        color: i == 0
+                            ? const Color.fromARGB(255, 255, 255, 255)
+                            : const Color.fromARGB(255, 255, 234, 167),
+                        borderColor: i == 0
+                            ? const Color.fromARGB(255, 253, 203, 110)
+                            : const Color.fromARGB(255, 225, 112, 85),
+                        strokeWidth: i == 0 ? 5 : 1,
+                        testSize: size),
+                child: Center(
+                  child: Text(
+                    text ?? num.toString(),
+                    style: TextStyle(
+                      color: num == 1 ? Colors.white : Colors.black,
                     ),
                   ),
                 ),
               ),
-          ],
-        ),
-        // num == 4
-        //     ? Jar(size: size)
-        //     : Visibility(visible: false, child: Container())
-      ],
-    );
-  }
-}
-
-class Jar extends StatelessWidget {
-  final Size size;
-  const Jar({super.key, required this.size});
-  @override
-  Widget build(BuildContext context) {
-    return Stack(
-      children: <Widget>[
-        // CustomPaint(
-        //   painter: CustomHexagon(
-        //       testSize: size,
-        //       color: Colors.red,
-        //       strokeWidth: 0,
-        //       borderColor: Colors.transparent),
-        //   child: const Image(image: AssetImage("asstes/images/jar.png")),
-        // ),
-
-        Container(
-          width: size.width * 0.15,
-          height: size.height * 0.26,
-          decoration: BoxDecoration(
-              color: Colors.blue.withOpacity(0.3),
-              image: DecorationImage(
-                  image: AssetImage("asstes/images/jar.png"),
-                  fit: BoxFit.fitWidth),
-              borderRadius: BorderRadius.circular(60)),
-        ),
-        Container(
-          width: size.width * 0.15,
-          height: size.height * 0.08,
-          decoration: const BoxDecoration(
-              image:
-                  DecorationImage(image: AssetImage("asstes/images/bee.png"))),
-        )
+            ),
+          ),
       ],
     );
   }

@@ -2,8 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:hexagon_demo/formula_field/formula_field.dart';
 import 'package:hexagon_demo/hexagon_filed/hexagon_list_container.dart';
-import 'package:hexagon_demo/hexagon_filed/widget/custom_hexagon.dart';
-import 'package:hexagon_demo/hexagon_package.dart';
+import 'package:hexagon_demo/hexagon_filed/widget/jar.dart';
 import 'package:hexagon_demo/hives_route/hives_route.dart';
 import 'package:hexagon_demo/key_pad/key_pad.dart';
 
@@ -67,7 +66,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
-                    // HivesRoute(size: containerSize),
+                    HivesRoute(size: containerSize),
                     Stack(
                       children: [
                         HexagonListContainer(size: containerSize),
@@ -79,9 +78,9 @@ class _MyHomePageState extends State<MyHomePage> {
                         )
                       ],
                     ),
-                    HexagonPackage(size: containerSize),
-                    // FormulaField(size: containerSize),
-                    // KeyPadContainer(size: containerSize)
+                    // HexagonPackage(size: containerSize),HEXマップ作れるライブラリ
+                    FormulaField(size: containerSize),
+                    KeyPadContainer(size: containerSize)
                   ],
                 ),
               ),
