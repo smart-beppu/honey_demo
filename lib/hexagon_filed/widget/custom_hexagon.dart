@@ -55,6 +55,14 @@ class HexagonContainer extends StatelessWidget {
   }
 }
 
+class NumCounter {
+  int _count = 0;
+  int get count => _count;
+  void countUpNumber() {
+    _count++;
+  }
+}
+
 class CustomHexagon extends CustomPainter {
   final Size testSize;
   final Color color;
