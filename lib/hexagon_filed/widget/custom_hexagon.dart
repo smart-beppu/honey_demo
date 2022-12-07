@@ -2,55 +2,67 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 
-class HexagonContainer extends StatelessWidget {
+class HexagonContainer extends StatefulWidget {
   final int num;
   final Size size;
-
   final String? text;
-
+  final NumCounter numCounter;
   const HexagonContainer(
-      {super.key, required this.num, required this.size, this.text});
+      {super.key,
+      required this.num,
+      required this.size,
+      this.text,
+      required this.numCounter});
 
+  @override
+  State<HexagonContainer> createState() => _HexagonContainerState();
+}
+
+class _HexagonContainerState extends State<HexagonContainer> {
   @override
   Widget build(BuildContext context) {
     return Wrap(
       direction: Axis.vertical,
       children: [
-        for (int i = 0; i < num; i++)
-          Container(
-            width: size.width * 0.12, // 1 ≒ 8*0.12
-            height: size.height * 0.08,
-            child: GestureDetector(
-              onTap: () {
-                print("test");
-              },
-              child: CustomPaint(
-                painter: num == 1
-                    ? CustomHexagon(
-                        color: const Color.fromARGB(255, 189, 126, 74),
-                        strokeWidth: 1,
-                        testSize: size)
-                    : CustomHexagon(
-                        color: i == 0
-                            ? const Color.fromARGB(255, 255, 255, 255)
-                            : const Color.fromARGB(255, 255, 234, 167),
-                        borderColor: i == 0
-                            ? const Color.fromARGB(255, 253, 203, 110)
-                            : const Color.fromARGB(255, 225, 112, 85),
-                        strokeWidth: i == 0 ? 5 : 1,
-                        testSize: size),
-                child: Center(
-                  child: Text(
-                    text ?? num.toString(),
-                    style: TextStyle(
-                      color: num == 1 ? Colors.white : Colors.black,
-                    ),
-                  ),
-                ),
-              ),
-            ),
-          ),
+        for (int i = 0; i < widget.num; i++) hexContaier(i),
       ],
+    );
+  }
+
+  Widget hexContaier(int num) {
+    widget.numCounter.countUpNumber();
+
+    int hexNumber = widget.numCounter.count;
+    return Container(
+      width: widget.size.width * 0.12, // 1 ≒ 8*0.12
+      height: widget.size.height * 0.08,
+      child: GestureDetector(
+          onTap: () {
+            print(hexNumber);
+          },
+          child: CuntomHex(hexNumber)),
+    );
+  }
+
+  Widget CuntomHex(int num) {
+    return CustomPaint(
+      painter: CustomHexagon(
+          color: num == 1 || num == 27
+              ? const Color.fromARGB(255, 189, 126, 74)
+              : const Color.fromARGB(255, 255, 234, 167),
+          borderColor: num == 1 || num == 27
+              ? const Color.fromARGB(255, 189, 126, 74)
+              : const Color.fromARGB(255, 225, 112, 85),
+          strokeWidth: 1,
+          testSize: widget.size),
+      child: Center(
+        child: Text(
+          widget.text ?? num.toString(),
+          style: TextStyle(
+            color: num == 1 || num == 27 ? Colors.white : Colors.black,
+          ),
+        ),
+      ),
     );
   }
 }

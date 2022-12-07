@@ -7,9 +7,10 @@ class HexagonListContainer extends StatelessWidget {
   const HexagonListContainer({super.key, required this.size});
   @override
   Widget build(BuildContext context) {
+    late NumCounter numberCounter = NumCounter();
     return Container(
       width: size.width * 1,
-      height: size.height * 0.46,
+      height: size.height * 0.53,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
@@ -26,6 +27,7 @@ class HexagonListContainer extends StatelessWidget {
                     : hexList[i] == 1
                         ? "Finish"
                         : null,
+                numCounter: numberCounter,
               ),
             ),
         ],
