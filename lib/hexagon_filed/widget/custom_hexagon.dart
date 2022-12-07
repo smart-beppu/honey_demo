@@ -1,4 +1,4 @@
-import 'dart:math';
+import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
 
@@ -31,20 +31,23 @@ class _HexagonContainerState extends State<HexagonContainer> {
 
   Widget hexContaier(int num) {
     widget.numCounter.countUpNumber();
-
     int hexNumber = widget.numCounter.count;
+    final String formula =
+        "${widget.numCounter.left}×${widget.numCounter.right}";
     return Container(
       width: widget.size.width * 0.12, // 1 ≒ 8*0.12
       height: widget.size.height * 0.08,
       child: GestureDetector(
           onTap: () {
-            print(hexNumber);
+            print(formula);
           },
-          child: CuntomHex(hexNumber)),
+          child: CuntomHex(hexNumber, formula)),
     );
   }
 
-  Widget CuntomHex(int num) {
+  Widget CuntomHex(int num, String formula) {
+    widget.numCounter.createNum();
+
     return CustomPaint(
       painter: CustomHexagon(
           color: num == 1 || num == 27
@@ -57,7 +60,7 @@ class _HexagonContainerState extends State<HexagonContainer> {
           testSize: widget.size),
       child: Center(
         child: Text(
-          widget.text ?? num.toString(),
+          widget.text ?? formula,
           style: TextStyle(
             color: num == 1 || num == 27 ? Colors.white : Colors.black,
           ),
@@ -70,8 +73,19 @@ class _HexagonContainerState extends State<HexagonContainer> {
 class NumCounter {
   int _count = 0;
   int get count => _count;
+  int _left = 0;
+  int get left => _left;
+  int _right = 0;
+  int get right => _right;
+
   void countUpNumber() {
     _count++;
+  }
+
+  void createNum() {
+    final rand = math.Random();
+    _left = rand.nextInt(3) + 1;
+    _right = rand.nextInt(8) + 1;
   }
 }
 
@@ -89,7 +103,7 @@ class CustomHexagon extends CustomPainter {
   void paint(Canvas canvas, Size size) {
     const double sides = 6.0; //多角形の設定
     double radius = testSize.width * 0.076; //図形のサイズ30.0
-    const angle = (pi * 2) / sides;
+    const angle = (math.pi * 2) / sides;
     final paint = Paint()
       ..color = color
       ..style = PaintingStyle.fill
@@ -102,12 +116,12 @@ class CustomHexagon extends CustomPainter {
     Path path = Path();
 
     Offset center = Offset(testSize.width / 18, testSize.height / 25); //ポジション
-    Offset startPoint = Offset(radius * cos(0.0), radius * sin(0.0));
+    Offset startPoint = Offset(radius * math.cos(0.0), radius * math.sin(0.0));
     path.moveTo(startPoint.dx + center.dx, startPoint.dy + center.dy); //始点
 
     for (int i = 1; i <= sides; i++) {
-      double x = radius * cos(angle * i) + center.dx;
-      double y = radius * sin(angle * i) + center.dy;
+      double x = radius * math.cos(angle * i) + center.dx;
+      double y = radius * math.sin(angle * i) + center.dy;
       path.lineTo(x, y); //x軸にスタート地点,y軸のスタート地点
 
     }
