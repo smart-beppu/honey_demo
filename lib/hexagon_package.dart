@@ -8,35 +8,41 @@ class HexagonPackage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-        width: size.width * 1,
-        height: size.height * 0.5,
-        color: Colors.greenAccent,
-        child: Column(
-          children: <Widget>[
-            HexagonOffsetGrid.oddFlat(
-              columns: 8,
-              rows: hexList[0],
-              buildTile: (col, row) => HexagonWidgetBuilder(
-                  padding: 1, color: Colors.purple, elevation: 3),
-              buildChild: (col, row) {
-                return Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(col.toString()),
-                    Text(",${row.toString()}"),
-                  ],
-                );
-              },
+      width: size.width * 1,
+      height: size.height * 0.5,
+      color: Colors.greenAccent,
+      child: Row(
+        children: [
+          for (int i = 0; i < 15; i++)
+            HexagonWidget.flat(
+              width: size.width * 0.2,
+              color: Colors.purple,
+              child: const Text("六角形"),
             ),
-          ],
-        )
-
-        // HexagonWidget.flat(
-        //   width: size.width * 0.3,
-        //   color: Colors.purple,
-        //   padding: 5.0,
-        //   child: const Text("六角形"),
-        // ),
-        );
+        ],
+      ),
+      //  Column(
+      //   children: <Widget>[
+      //     HexagonOffsetGrid.oddFlat(
+      //       columns: 10,
+      //       rows: 5,
+      //       buildTile: (col, row) => HexagonWidgetBuilder(
+      //           padding: 1, color: Colors.purple, elevation: 2),
+      //       buildChild: (col, row) {
+      //         return GestureDetector(
+      //           onTap: (() => print(row)),
+      //           child: Row(
+      //             mainAxisAlignment: MainAxisAlignment.center,
+      //             children: [
+      //               Text(col.toString()),
+      //               Text(",${row.toString()}"),
+      //             ],
+      //           ),
+      //         );
+      //       },
+      //     ),
+      //   ],
+      // )
+    );
   }
 }

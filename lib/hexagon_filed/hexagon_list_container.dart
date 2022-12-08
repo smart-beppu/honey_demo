@@ -4,7 +4,11 @@ import 'package:hexagon_demo/hexagon_filed/widget/custom_hexagon.dart';
 
 class HexagonListContainer extends StatelessWidget {
   final Size size;
-  const HexagonListContainer({super.key, required this.size});
+
+  const HexagonListContainer({
+    super.key,
+    required this.size,
+  });
   @override
   Widget build(BuildContext context) {
     late NumCounter numberCounter = NumCounter();
@@ -22,11 +26,6 @@ class HexagonListContainer extends StatelessWidget {
               child: HexagonContainer(
                 num: hexList[i],
                 size: size,
-                text: i == 0
-                    ? "Start"
-                    : hexList[i] == 1
-                        ? "Finish"
-                        : null,
                 numCounter: numberCounter,
               ),
             ),
