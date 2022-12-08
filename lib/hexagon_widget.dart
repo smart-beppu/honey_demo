@@ -15,7 +15,7 @@ class HexagonWidget extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     const double sides = 6.0; //多角形の設定
-    double radius = testSize.width * 0.076; //図形のサイズ30.0
+    double radius = testSize.width * 0.076;
     const angle = (math.pi * 2) / sides;
     final paint = Paint()
       ..color = color
