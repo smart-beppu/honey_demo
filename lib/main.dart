@@ -2,10 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:hexagon_demo/formula_field/formula_field.dart';
 import 'package:hexagon_demo/hexagon_filed/hexagon_list_container.dart';
-import 'package:hexagon_demo/hexagon_filed/widget/custom_hexagon.dart';
-import 'package:hexagon_demo/hexagon_package.dart';
+import 'package:hexagon_demo/hexagon_filed/widget/jar.dart';
 import 'package:hexagon_demo/hives_route/hives_route.dart';
 import 'package:hexagon_demo/key_pad/key_pad.dart';
+import 'package:hexagon_demo/model/hex_model.dart';
+import 'package:provider/provider.dart';
 
 void main() {
   runApp(const MyApp());
@@ -18,12 +19,11 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: const MyHomePage(),
-    );
+        title: 'Flutter Demo',
+        theme: ThemeData(
+          primarySwatch: Colors.blue,
+        ),
+        home: const MyHomePage());
   }
 }
 
@@ -50,43 +50,69 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: AppBar(backgroundColor: Colors.transparent),
-        body: Stack(children: <Widget>[
-          Container(
-            width: double.infinity,
-            height: double.infinity,
-            color: const Color.fromARGB(255, 229, 229, 229),
-          ),
-          Align(
-            alignment: Alignment.bottomCenter,
-            child: AspectRatio(
-              aspectRatio: 9 / 16,
-              child: Container(
-                key: _key,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    // HivesRoute(size: containerSize),
-                    Stack(
-                      children: [
-                        HexagonListContainer(size: containerSize),
-                        Padding(
-                          padding: EdgeInsets.only(
+    return ChangeNotifierProvider<HexModel>(
+      create: (_) => HexModel(),
+      child: Scaffold(
+          appBar: AppBar(backgroundColor: Colors.transparent),
+          body: Stack(children: <Widget>[
+            Container(
+              width: double.infinity,
+              height: double.infinity,
+              color: const Color.fromARGB(255, 229, 229, 229),
+            ),
+            Align(
+              alignment: Alignment.bottomCenter,
+              child: AspectRatio(
+                aspectRatio: 9 / 16,
+                child: Container(
+                  key: _key,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      // Count(size: containerSize, model: model),
+                      HivesRoute(size: containerSize),
+                      Stack(
+                        children: [
+                          HexagonListContainer(
+                            size: containerSize,
+                          ),
+                          Positioned(
+                              top: containerSize.height * 0.25,
+                              left: containerSize.width * 0.24,
+                              child: Jar(
+                                size: containerSize,
+                                num: 1,
+                              )),
+                          Positioned(
+                              bottom: containerSize.height * 0.29,
                               left: containerSize.width * 0.36,
-                              top: containerSize.height * 0.1),
-                          child: Jar(size: containerSize),
-                        )
-                      ],
-                    ),
-                    HexagonPackage(size: containerSize),
-                    // FormulaField(size: containerSize),
-                    // KeyPadContainer(size: containerSize)
-                  ],
+                              child: Jar(
+                                size: containerSize,
+                                num: 2,
+                              )),
+                          Positioned(
+                              top: containerSize.height * 0.13,
+                              left: containerSize.width * 0.6,
+                              child: Jar(
+                                size: containerSize,
+                                num: 3,
+                              )),
+                        ],
+                      ),
+                      FormulaField(
+                        size: containerSize,
+                      ),
+                      KeyPadContainer(
+                        size: containerSize,
+                      )
+
+                      // HexagonPackage(size: containerSize), //HEXマップ作れるライブラリ
+                    ],
+                  ),
                 ),
               ),
             ),
-          ),
-        ]));
+          ])),
+    );
   }
 }

@@ -7,7 +7,7 @@ class HivesRoute extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: size.width * 1,
-      height: size.height * 0.24,
+      height: size.height * 0.17,
       child: Stack(
         children: <Widget>[
           Row(
@@ -16,7 +16,7 @@ class HivesRoute extends StatelessWidget {
                 Container(
                   width: size.width / 3,
                   decoration: BoxDecoration(
-                      color: i == 1
+                      color: i == 0
                           ? const Color.fromARGB(255, 255, 234, 167)
                           : Colors.transparent,
                       shape: BoxShape.circle),
@@ -33,7 +33,7 @@ class HivesRoute extends StatelessWidget {
                         image: AssetImage(
                           "asstes/images/hive.png",
                         ),
-                        fit: BoxFit.fitWidth),
+                        fit: BoxFit.fitHeight),
                   ),
                 ),
             ],

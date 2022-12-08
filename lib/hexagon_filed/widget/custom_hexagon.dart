@@ -1,147 +1,87 @@
-import 'dart:math';
-
+import 'dart:math' as math;
 import 'package:flutter/material.dart';
+import 'package:hexagon_demo/Lists/hex_containr_list.dart';
+import 'package:hexagon_demo/hexagon_widget.dart';
+import 'package:hexagon_demo/model/hex_model.dart';
+import 'package:provider/provider.dart';
 
 class HexagonContainer extends StatelessWidget {
   final int num;
   final Size size;
+  final NumCounter numCounter;
 
-  final String? text;
-
-  const HexagonContainer(
-      {super.key, required this.num, required this.size, this.text});
+  const HexagonContainer({
+    super.key,
+    required this.num,
+    required this.size,
+    required this.numCounter,
+  });
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
+    final model = Provider.of<HexModel>(context);
+    return Wrap(
+      direction: Axis.vertical,
       children: [
-        Wrap(
-          direction: Axis.vertical,
-          children: [
-            for (int i = 0; i < num; i++)
-              Container(
-                width: size.width * 0.12, // 1 ≒ 8*0.12
-                height: size.height * 0.08,
-                child: GestureDetector(
-                  onTap: () {
-                    print("test");
-                  },
-                  child: CustomPaint(
-                    painter: num == 1
-                        ? CustomHexagon(
-                            color: const Color.fromARGB(255, 189, 126, 74),
-                            strokeWidth: 1,
-                            testSize: size)
-                        : CustomHexagon(
-                            color: i == 0
-                                ? const Color.fromARGB(255, 255, 255, 255)
-                                : const Color.fromARGB(255, 255, 234, 167),
-                            borderColor: i == 0
-                                ? const Color.fromARGB(255, 253, 203, 110)
-                                : const Color.fromARGB(255, 225, 112, 85),
-                            strokeWidth: i == 0 ? 5 : 1,
-                            testSize: size),
-                    child: Center(
-                      child: Text(
-                        text ?? num.toString(),
-                        style: TextStyle(
-                          color: num == 1 ? Colors.white : Colors.black,
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-          ],
-        ),
-        // num == 4
-        //     ? Jar(size: size)
-        //     : Visibility(visible: false, child: Container())
+        for (int i = 0; i < num; i++) hexContaier(i, model),
       ],
+    );
+  }
+
+  Widget hexContaier(int num, HexModel model) {
+    numCounter.countUpNumber();
+    int hexNumber = numCounter.count;
+    final lNum = math.Random().nextInt(3);
+    final rNum = math.Random().nextInt(8);
+    leftNumList.shuffle();
+    rightNumList.shuffle();
+
+    // return Consumer<HexModel>(builder: (context, model, child) {
+    //   model.setMathProblem();
+    return Container(
+      width: size.width * 0.12, // 1 ≒ 8*0.12
+      height: size.height * 0.08,
+      child: InkWell(
+          onTap: () {
+            model.changeText(leftNumList[lNum], rightNumList[rNum]);
+          },
+          child: CuntomHex(hexNumber, leftNumList[lNum], rightNumList[rNum])),
+    );
+    // });
+  }
+
+  Widget CuntomHex(int num, int leftNum, int rightNum) {
+    return CustomPaint(
+      painter: HexagonWidget(
+          color: num == 1 || num == 27
+              ? const Color.fromARGB(255, 189, 126, 74)
+              : const Color.fromARGB(255, 255, 234, 167),
+          borderColor: num == 1 || num == 27
+              ? const Color.fromARGB(255, 189, 126, 74)
+              : const Color.fromARGB(255, 225, 112, 85),
+          strokeWidth: 1,
+          testSize: size),
+      child: Center(
+        child: Text(
+          num == 1
+              ? "Start"
+              : num == 27
+                  ? "Finish"
+                  : "",
+          style: TextStyle(
+            color: num == 1 || num == 27 ? Colors.white : Colors.black,
+          ),
+        ),
+      ),
     );
   }
 }
 
-class Jar extends StatelessWidget {
-  final Size size;
-  const Jar({super.key, required this.size});
-  @override
-  Widget build(BuildContext context) {
-    return Stack(
-      children: <Widget>[
-        // CustomPaint(
-        //   painter: CustomHexagon(
-        //       testSize: size,
-        //       color: Colors.red,
-        //       strokeWidth: 0,
-        //       borderColor: Colors.transparent),
-        //   child: const Image(image: AssetImage("asstes/images/jar.png")),
-        // ),
+class NumCounter {
+  int _count = 0;
+  int get count => _count;
 
-        Container(
-          width: size.width * 0.15,
-          height: size.height * 0.26,
-          decoration: BoxDecoration(
-              color: Colors.blue.withOpacity(0.3),
-              image: DecorationImage(
-                  image: AssetImage("asstes/images/jar.png"),
-                  fit: BoxFit.fitWidth),
-              borderRadius: BorderRadius.circular(60)),
-        ),
-        Container(
-          width: size.width * 0.15,
-          height: size.height * 0.08,
-          decoration: const BoxDecoration(
-              image:
-                  DecorationImage(image: AssetImage("asstes/images/bee.png"))),
-        )
-      ],
-    );
-  }
-}
-
-class CustomHexagon extends CustomPainter {
-  final Size testSize;
-  final Color color;
-  final Color? borderColor;
-  final double strokeWidth;
-  CustomHexagon(
-      {required this.testSize,
-      required this.color,
-      this.borderColor,
-      required this.strokeWidth});
-  @override
-  void paint(Canvas canvas, Size size) {
-    const double sides = 6.0; //多角形の設定
-    double radius = testSize.width * 0.076; //図形のサイズ30.0
-    const angle = (pi * 2) / sides;
-    final paint = Paint()
-      ..color = color
-      ..style = PaintingStyle.fill
-      ..strokeCap = StrokeCap.butt;
-    final borderPaint = Paint()
-      ..color = borderColor ?? const Color.fromARGB(255, 189, 126, 74)
-      ..strokeWidth = strokeWidth
-      ..style = PaintingStyle.stroke
-      ..strokeCap = StrokeCap.round;
-    Path path = Path();
-
-    Offset center = Offset(testSize.width / 18, testSize.height / 25); //ポジション
-    Offset startPoint = Offset(radius * cos(0.0), radius * sin(0.0));
-    path.moveTo(startPoint.dx + center.dx, startPoint.dy + center.dy); //始点
-
-    for (int i = 1; i <= sides; i++) {
-      double x = radius * cos(angle * i) + center.dx;
-      double y = radius * sin(angle * i) + center.dy;
-      path.lineTo(x, y); //x軸にスタート地点,y軸のスタート地点
-
-    }
-    canvas.drawPath(path, paint); //オブジェクト描写
-    canvas.drawPath(path, borderPaint);
-  }
-
-  @override
-  bool shouldRepaint(covariant CustomPainter oldDelegate) {
-    return true;
+  void countUpNumber() {
+    _count++;
   }
 }
